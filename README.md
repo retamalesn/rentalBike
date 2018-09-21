@@ -1,4 +1,7 @@
-# Rental Bike - Rest API for Rental Bike 
+# Rental Bike - Rest API for Rental Bike
+
+![header](https://github.com/retamalesn/rentalBike/blob/master/src/main/resources/static/images/header.jpg)
+
 ## Description
 
 Rental Bike is an API Rest to administrate your bike rental store.
