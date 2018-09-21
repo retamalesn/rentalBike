@@ -1,0 +1,355 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.14
+-- Dumped by pg_dump version 9.5.14
+
+-- Started on 2018-09-21 02:06:30 -03
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 2194 (class 1262 OID 50388)
+-- Name: rentalbikedb; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE rentalbikedb WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8';
+
+
+ALTER DATABASE rentalbikedb OWNER TO postgres;
+
+\connect rentalbikedb
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12395)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2197 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 182 (class 1259 OID 51652)
+-- Name: bike; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.bike (
+    id bigint NOT NULL,
+    description character varying(255),
+    status character varying(255)
+);
+
+
+ALTER TABLE public.bike OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 51660)
+-- Name: bike_prices; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.bike_prices (
+    bike_id bigint NOT NULL,
+    price_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.bike_prices OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 51665)
+-- Name: booking; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.booking (
+    id bigint NOT NULL,
+    created_date timestamp without time zone,
+    end_rent date,
+    price real,
+    start_rent date,
+    bike_id bigint,
+    rentorder_id bigint
+);
+
+
+ALTER TABLE public.booking OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 51670)
+-- Name: customer; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customer (
+    id bigint NOT NULL,
+    image_url character varying(255),
+    customer_name character varying(255),
+    identification character varying(255),
+    last_name character varying(255),
+    name character varying(255),
+    pass character varying(255)
+);
+
+
+ALTER TABLE public.customer OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 51678)
+-- Name: discount; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.discount (
+    id bigint NOT NULL,
+    max integer,
+    min integer,
+    name character varying(255),
+    percentage integer,
+    description character varying(255)
+);
+
+
+ALTER TABLE public.discount OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 50394)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 51683)
+-- Name: image; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.image (
+    id bigint NOT NULL,
+    name character varying(255),
+    url character varying(255),
+    bike_id bigint
+);
+
+
+ALTER TABLE public.image OWNER TO postgres;
+
+--
+-- TOC entry 188 (class 1259 OID 51691)
+-- Name: price; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.price (
+    id bigint NOT NULL,
+    price real,
+    status character varying(255),
+    type character varying(255)
+);
+
+
+ALTER TABLE public.price OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 51696)
+-- Name: rent_order; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rent_order (
+    id bigint NOT NULL,
+    created_date timestamp without time zone,
+    status character varying(255),
+    total real,
+    customer_id bigint,
+    discount_id bigint
+);
+
+
+ALTER TABLE public.rent_order OWNER TO postgres;
+
+--
+-- TOC entry 2053 (class 2606 OID 51659)
+-- Name: bike_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bike
+    ADD CONSTRAINT bike_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2055 (class 2606 OID 51664)
+-- Name: bike_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bike_prices
+    ADD CONSTRAINT bike_prices_pkey PRIMARY KEY (bike_id, price_id);
+
+
+--
+-- TOC entry 2057 (class 2606 OID 51669)
+-- Name: booking_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.booking
+    ADD CONSTRAINT booking_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2059 (class 2606 OID 51677)
+-- Name: customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2061 (class 2606 OID 51682)
+-- Name: discount_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.discount
+    ADD CONSTRAINT discount_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2063 (class 2606 OID 51690)
+-- Name: image_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image
+    ADD CONSTRAINT image_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2065 (class 2606 OID 51695)
+-- Name: price_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.price
+    ADD CONSTRAINT price_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2067 (class 2606 OID 51700)
+-- Name: rent_order_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rent_order
+    ADD CONSTRAINT rent_order_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2068 (class 2606 OID 51701)
+-- Name: fk8nl34dh84b9p9oeg88uctnrom; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bike_prices
+    ADD CONSTRAINT fk8nl34dh84b9p9oeg88uctnrom FOREIGN KEY (price_id) REFERENCES public.price(id);
+
+
+--
+-- TOC entry 2070 (class 2606 OID 51711)
+-- Name: fk9nwwhagi5d8l7jq0f1dfvkrep; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.booking
+    ADD CONSTRAINT fk9nwwhagi5d8l7jq0f1dfvkrep FOREIGN KEY (bike_id) REFERENCES public.bike(id);
+
+
+--
+-- TOC entry 2074 (class 2606 OID 51731)
+-- Name: fkbwn8avcktag7v5rng4k6l2yju; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rent_order
+    ADD CONSTRAINT fkbwn8avcktag7v5rng4k6l2yju FOREIGN KEY (discount_id) REFERENCES public.discount(id);
+
+
+--
+-- TOC entry 2069 (class 2606 OID 51706)
+-- Name: fkct933k1etgtjp07xdp0uhrvh8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bike_prices
+    ADD CONSTRAINT fkct933k1etgtjp07xdp0uhrvh8 FOREIGN KEY (bike_id) REFERENCES public.bike(id);
+
+
+--
+-- TOC entry 2071 (class 2606 OID 51716)
+-- Name: fkcxu7wstfm48ah3r7flvbs88it; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.booking
+    ADD CONSTRAINT fkcxu7wstfm48ah3r7flvbs88it FOREIGN KEY (rentorder_id) REFERENCES public.rent_order(id);
+
+
+--
+-- TOC entry 2072 (class 2606 OID 51721)
+-- Name: fkddfxwpk1e2xcxq9gyfv4bkxps; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image
+    ADD CONSTRAINT fkddfxwpk1e2xcxq9gyfv4bkxps FOREIGN KEY (bike_id) REFERENCES public.bike(id);
+
+
+--
+-- TOC entry 2073 (class 2606 OID 51726)
+-- Name: fknwefonsarinh6misdo7p80g2e; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rent_order
+    ADD CONSTRAINT fknwefonsarinh6misdo7p80g2e FOREIGN KEY (customer_id) REFERENCES public.customer(id);
+
+
+--
+-- TOC entry 2196 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2018-09-21 02:06:30 -03
+
+--
+-- PostgreSQL database dump complete
+--
+
