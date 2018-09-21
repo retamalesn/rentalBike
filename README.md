@@ -17,7 +17,12 @@ Rental Bike is an API Rest to administrate your bike rental store.
 
   - Project checkout
   - Configure your credentials in the property file
-  - Run database script (rentalBike.backup)
+  - Run database script (File above)
+ 
+### Files
+  See [rentalBike.backup](https://github.com/retamalesn/rentalBike/blob/master/src/main/resources/static/Diagrams/rentalBike.backup)
+    See [RentalBike-class-diagram.pdf](https://github.com/retamalesn/rentalBike/blob/master/src/main/resources/static/Diagrams/RentalBike-class-diagram.pdf)
+    See [application.yml)](https://github.com/retamalesn/rentalBike/blob/master/src/main/resources/application.yml)
 
 ## To do
 
